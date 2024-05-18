@@ -6,6 +6,7 @@ public class Process {
     private int responseTime;
     private int arrivedTime;
     private int priority;
+    private double responseRatio;
 
     public Process(int psNumber, int requiredCpuTime, int arrivedTime, int priority){
         this.psNumber = psNumber;
@@ -29,12 +30,10 @@ public class Process {
     public int getResponseTime() {
         return responseTime;
     }
-    public int getArriveTime() {
-        return arrivedTime;
-    }
-    public int getPriority() {
-        return priority;
-    }
+    public int getArriveTime() { return arrivedTime; }
+    public int getPriority() { return priority; }
+    public double getResponseRatio() { return responseRatio; }
+    public void setResponseRatio( double responseRatio ){ this.responseRatio = responseRatio; }
 
     public void setTime(int turnaroundTime, int waitingTime, int responseTime){
         this.turnaroundTime = turnaroundTime;
