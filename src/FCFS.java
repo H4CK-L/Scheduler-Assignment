@@ -39,12 +39,22 @@ public class FCFS {
             allTime += processes.get(key).getRequiredCpuTime();
         }
 
+        System.out.println("============================");
         for(Process p : processes){
             System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 대기시간 : " + p.getWaitingTime());
             totalWaitTime += p.getWaitingTime();
         }
-
+        System.out.println("============================");
+        for(Process p : processes){
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 실행시간 : " + p.getRequiredCpuTime());
+        }
+        System.out.println("============================");
+        for(Process p : processes){
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 응답시간 : " + p.getResponseTime());
+        }
+        System.out.println("============================");
         System.out.println("총 실행 시간 : " + allTime);
         System.out.println("평균 대기시간 : " + totalWaitTime / processes.size());
+        System.out.println("============================");
     }
 }
