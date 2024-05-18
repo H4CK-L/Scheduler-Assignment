@@ -23,9 +23,9 @@ public class Main {
         }
         int a = 1;
         FCFS fcfs = new FCFS(ps);
+        SJF sjf = new SJF(ps);
        // HRRN hrrn = new HRRN(ps);
        // RoundRobin rr = new RoundRobin(ps);
-        SJF sjf = new SJF(ps);
         while(a != 0){
             System.out.println("실행할 스케줄러 선택(1 : FCFS, 2 : SJF, 3 : HRRN, 4 : RR, 0 : 종료 | 입력 : ");
             a = psNum.nextInt();
