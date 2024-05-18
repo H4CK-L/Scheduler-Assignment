@@ -7,6 +7,7 @@ public class FCFS {
     private HashMap<Integer, Integer> hs = new HashMap<Integer, Integer>();
     private ArrayList<Integer> keySet;
     private int allTime = 0;
+    private boolean checkFirst = false;
 
     public FCFS(ArrayList<Process> processes) {
         this.processes = processes;
@@ -29,18 +30,21 @@ public class FCFS {
 
     public void run(){
         for(int key : keySet){
-            if(key == 0){
+            if(!checkFirst){
                 processes.get(keySet.get(key)).setTime(processes.get(key).getRequiredCpuTime(), 0, 0);
                 allTime += processes.get(key).getRequiredCpuTime();
+                checkFirst = true;
                 continue;
             }
+            processes.get(keySet.get(key)).setTime(processes.get(key).getRequiredCpuTime(), allTime - hs.get(key), processes.get(key).getRequiredCpuTime());
             allTime += processes.get(key).getRequiredCpuTime();
-            processes.get(keySet.get(key)).setTime(processes.get(key).getRequiredCpuTime(), processes.get(key-1).getRequiredCpuTime() - processes.get(key).getRequiredCpuTime(), processes.get(key).getRequiredCpuTime());
         }
         for(int key : keySet){
-            System.out.println("프로세스 " + key + " 의 대기시간 : " + processes.get(key-1).getWaitingTime());
+            System.out.println("프로세스 " + key + " 의 대기시간 : " + processes.get(key).getWaitingTime());
         }
         System.out.println("총 실행 : " + allTime);
         System.out.println("평균 대기시간 : ");
+        allTime = 0;
+        checkFirst = false;
     }
 }
