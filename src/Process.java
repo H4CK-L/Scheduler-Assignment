@@ -4,13 +4,13 @@ public class Process {
     private int requiredCpuTime;
     private int turnaroundTime;
     private int responseTime;
-    private int arriveTime;
+    private int arrivedTime;
     private int priority;
 
-    public Process(int psNumber, int requiredCpuTime, int arriveTime, int priority){
+    public Process(int psNumber, int requiredCpuTime, int arrivedTime, int priority){
         this.psNumber = psNumber;
         this.requiredCpuTime = requiredCpuTime;
-        this.arriveTime = arriveTime;
+        this.arrivedTime = arrivedTime;
         this.priority = priority;
     }
 
@@ -30,14 +30,15 @@ public class Process {
         return responseTime;
     }
     public int getArriveTime() {
-        return arriveTime;
+        return arrivedTime;
     }
     public int getPriority() {
         return priority;
     }
 
-    public void setTime(int turnaroundTime, int waitingTime){
+    public void setTime(int turnaroundTime, int waitingTime, int responseTime){
         this.turnaroundTime = turnaroundTime;
         this.waitingTime = waitingTime;
+        this.responseTime = responseTime;
     }
 }
