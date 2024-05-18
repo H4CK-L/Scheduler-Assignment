@@ -7,6 +7,8 @@ public class Process {
     private int arrivedTime;
     private int priority;
 
+    public Process(){}
+
     public Process(int psNumber, int requiredCpuTime, int arrivedTime, int priority){
         this.psNumber = psNumber;
         this.requiredCpuTime = requiredCpuTime;
