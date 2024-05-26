@@ -6,7 +6,7 @@ public class NEWHRRN {
     private ArrayList<Integer> keyset;
     private int[] waitingTimePerProcess;
     private int allTime = 0;
-    public HRRN(ArrayList<Process> ps){
+    public NEWHRRN(ArrayList<Process> ps){
         this.ps=ps;
         for(Process p : ps){
             p.setPriority(1000);
