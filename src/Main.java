@@ -9,15 +9,16 @@ public class Main {
         int burst;
         int arrive;
         int priority;
+        int timeSlice;
         ArrayList<Process> ps = new ArrayList<Process>();
 
         for(int i = 0; i < num; i++){
             System.out.println("Burst Time, Arrive Time, Priority를 순서대로 입력하시오.");
             burst = psNum.nextInt();
             arrive = psNum.nextInt();
-            priority = psNum.nextInt();
+            //priority = psNum.nextInt();
 
-            Process ps1 = new Process(i, burst, arrive, priority);
+            Process ps1 = new Process(i, burst, arrive);
             ps.add(ps1);
             System.out.println("프로세스 생성 완료");
         }
@@ -37,6 +38,9 @@ public class Main {
 
             }
             else if(a == 4){
+                System.out.println("Time Slice를 입력하세요.");
+                timeSlice = psNum.nextInt();
+                rr.setTimeSlice(timeSlice);
                 rr.run();
             }
             else if(a == 0){
