@@ -22,24 +22,22 @@ public class Main {
             System.out.println("프로세스 생성 완료");
         }
         int a = 1;
-        FCFS fcfs = new FCFS(ps);
-        SJF sjf = new SJF(ps);
        // HRRN hrrn = new HRRN(ps);
-       // RoundRobin rr = new RoundRobin(ps);
+       RoundRobin rr = new RoundRobin(ps);
         while(a != 0){
             System.out.println("실행할 스케줄러 선택(1 : FCFS, 2 : SJF, 3 : HRRN, 4 : RR, 0 : 종료 | 입력 : ");
             a = psNum.nextInt();
             if(a == 1){
-                fcfs.run();
+
             }
             else if(a == 2){
-                sjf.run();
+
             }
             else if(a == 3){
 
             }
             else if(a == 4){
-
+                rr.run();
             }
             else if(a == 0){
                 System.out.println("종료");
