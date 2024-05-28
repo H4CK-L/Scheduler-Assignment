@@ -15,25 +15,28 @@ public class Main {
             System.out.println("Burst Time, Arrive Time, Priority를 순서대로 입력하시오.");
             burst = psNum.nextInt();
             arrive = psNum.nextInt();
-            //priority = psNum.nextInt();
+            priority = psNum.nextInt();
 
-            Process ps1 = new Process(i, burst, arrive);
+            Process ps1 = new Process(i, burst, arrive, priority);
             ps.add(ps1);
             System.out.println("프로세스 생성 완료");
         }
         int a = 1;
-        HRRN hrrn = new HRRN(ps);
+        FCFS fcfs = new FCFS(ps);
+        SJF sjf = new SJF(ps);
+       // HRRN hrrn = new HRRN(ps);
        // RoundRobin rr = new RoundRobin(ps);
         while(a != 0){
             System.out.println("실행할 스케줄러 선택(1 : FCFS, 2 : SJF, 3 : HRRN, 4 : RR, 0 : 종료 | 입력 : ");
             a = psNum.nextInt();
             if(a == 1){
+                fcfs.run();
             }
             else if(a == 2){
-
+                sjf.run();
             }
             else if(a == 3){
-                hrrn.run();
+
             }
             else if(a == 4){
 
