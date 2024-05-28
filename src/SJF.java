@@ -9,7 +9,6 @@ public class SJF{
     };
 
     private ArrayList<Process> processes = new ArrayList<Process>();
-    private ArrayList<Process> result = new ArrayList<Process>();
     private PriorityQueue<Process> readyQueue = new PriorityQueue<>(SJFComparator);
     private int totalPs = 0;
     private int allTime = 0;
@@ -37,9 +36,9 @@ public class SJF{
                 waitTime = allTime - readyQueue.peek().getArriveTime();
                 allTime += readyQueue.peek().getRequiredCpuTime();
                 readyQueue.peek().setTime(allTime - readyQueue.peek().getArriveTime(), waitTime, waitTime);
-                result.add(readyQueue.poll());
                 processCount++;
                 totalWaitTime += waitTime;
+                readyQueue.poll();
             }
             else{
                 allTime++;
@@ -49,23 +48,22 @@ public class SJF{
                 break;
             }
         }
-        Collections.sort(result);
 
         System.out.println("============================");
-        for(Process p : result){
+        for(Process p : processes){
             System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Waiting Time : " + p.getWaitingTime());
         }
         System.out.println("============================");
-        for(Process p : result){
+        for(Process p : processes){
             System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Turnaround Time : " + p.getTurnaroundTime());
         }
         System.out.println("============================");
-        for(Process p : result){
+        for(Process p : processes){
             System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 응답시간 : " + p.getResponseTime());
         }
         System.out.println("============================");
             System.out.println("Total CPU Burst : " + allTime);
-            System.out.println("Average Waiting Time : " + totalWaitTime / result.size());
+            System.out.println("Average Waiting Time : " + totalWaitTime / processes.size());
         System.out.println("============================");
     }
 }
