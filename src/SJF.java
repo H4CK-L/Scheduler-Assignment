@@ -59,7 +59,7 @@ public class SJF{
         }
         System.out.println("============================");
         for(Process p : processes){
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 응답시간 : " + p.getResponseTime());
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Response Time : " + p.getResponseTime());
         }
         System.out.println("============================");
             System.out.println("Total CPU Burst : " + allTime);
