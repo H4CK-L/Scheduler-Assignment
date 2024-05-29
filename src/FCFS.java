@@ -12,20 +12,20 @@ public class FCFS {
     }
 
     public void run(){
-        Process p;
+        Process ps;
         for(int i = 0; i < processes.size(); i++){
-            p = processes.get(i);
+            ps = processes.get(i);
             for(int j = i + 1; j < processes.size(); j++){
-                if(p.getArriveTime() > processes.get(j).getArriveTime()){
-                    p = processes.get(j);
+                if(ps.getArriveTime() > processes.get(j).getArriveTime()){
+                    ps = processes.get(j);
                 }
             }
-            readyQueue.add(p);
+            readyQueue.add(ps);
         }
 
-        while(!readyQueue.isEmpty()){
+        /*while(!readyQueue.isEmpty()){
 
-        }
+        }*/
 
 
 
