@@ -157,14 +157,14 @@ public class CPU extends javax.swing.JFrame {
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
                 		break;
 
-                	case "new":
+                	case "New":
 
                 }
             	}
             });
 
         jComboBox1.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "SJF", "HRRN", "Round Robin" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "SJF", "HRRN", "Round Robin" , "New"}));
 
 
 
