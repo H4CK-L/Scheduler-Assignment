@@ -157,7 +157,7 @@ public class CPU extends javax.swing.JFrame {
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
                 		break;
 
-                	case "New":
+                	case "Neww":
 
                 }
             	}
