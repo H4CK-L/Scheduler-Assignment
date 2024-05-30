@@ -24,17 +24,19 @@ public class FCFS {
                 }
             }
 
+            if(readyQueue.isEmpty()) {
+                allTime++;
+                continue;
+            }
+
             while (!readyQueue.isEmpty()) {
                 if (readyQueue.get(0).getArriveTime() <= allTime) {
-                    System.out.println("rq 0 : arr" + readyQueue.get(0).getArriveTime() + "alltime : " + allTime);
                     waitTime = allTime - readyQueue.get(0).getArriveTime();
                     allTime += readyQueue.get(0).getRequiredCpuTime();
                     readyQueue.get(0).setTime(allTime - readyQueue.get(0).getArriveTime(), waitTime, waitTime);
                     processCount++;
                     totalWaitTime += waitTime;
                     readyQueue.remove(0);
-                } else {
-                    allTime++;
                 }
             }
 
