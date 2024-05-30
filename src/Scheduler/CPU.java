@@ -109,6 +109,8 @@ public class CPU extends javax.swing.JFrame {
                             model.setValueAt(result.get("fcfsresponsetime"+i), i, 5);
                             model2.setValueAt(result.get("fcfsexecutiontime"), 0,0);
                             model2.setValueAt(result.get("fcfsavgwaitingtime"), 0,1);
+                            model2.setValueAt(result.get("fcfsthroughput"), 0,2);
+                            model2.setValueAt(result.get("fcfsutil")+"%", 0,3);
                         }
                         jTable1.setDefaultRenderer(Object.class, centerRenderer);
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
@@ -122,6 +124,8 @@ public class CPU extends javax.swing.JFrame {
                             model.setValueAt(result.get("sjfresponsetime"+i), i, 5);
                             model2.setValueAt(result.get("sjfexecutiontime"), 0,0);
                             model2.setValueAt(result.get("sjfavgwaitingtime"), 0,1);
+                            model2.setValueAt(result.get("sjfthroughput"), 0,2);
+                            model2.setValueAt(result.get("sjfutil")+"%", 0,3);
                         }
                         jTable1.setDefaultRenderer(Object.class, centerRenderer);
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
@@ -136,6 +140,8 @@ public class CPU extends javax.swing.JFrame {
                             model.setValueAt(result.get("hrrnresponsetime"+i), i, 5);
                             model2.setValueAt(result.get("hrrnexecutiontime"), 0,0);
                             model2.setValueAt(result.get("hrrnavgwaitingtime"), 0,1);
+                            model2.setValueAt(result.get("hrrnthroughput"), 0,2);
+                            model2.setValueAt(result.get("hrrnutil")+"%", 0,3);
                         }
                         jTable1.setDefaultRenderer(Object.class, centerRenderer);
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
@@ -151,13 +157,15 @@ public class CPU extends javax.swing.JFrame {
                                 model.setValueAt(result.get("rrresponsetime"+i), i, 5);
                                 model2.setValueAt(result.get("rrexecutiontime"), 0,0);
                                 model2.setValueAt(result.get("rravgwaitingtime"), 0,1);
+                                model2.setValueAt(result.get("rrthroughput"), 0,2);
+                                model2.setValueAt(result.get("rrutil")+"%", 0,3);
                             }
                 		}
                         jTable1.setDefaultRenderer(Object.class, centerRenderer);
                         jTable2.setDefaultRenderer(Object.class, centerRenderer);
                 		break;
 
-                	case "Neww":
+                	case "New":
 
                 }
             	}

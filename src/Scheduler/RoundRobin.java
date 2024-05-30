@@ -9,20 +9,23 @@ public class RoundRobin {
     private ArrayList<Process> jobqueue = new ArrayList<>();
     private double totalwaitingtime=0;
     private int size=0;
-
+    private double allBurst = 0;
     public RoundRobin(ArrayList<Process> pss ,int timeSlice){
         for(Process p : pss){
             ps.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
             size++;
+            allBurst += p.getRequiredCpuTime();
+
         }
-        this.timeSlice = timeSlice;
-    }
-    public void setTimeSlice(int timeSlice){
         this.timeSlice = timeSlice;
     }
     public void running(){
         while(true){
             if(ps.isEmpty()){
+                break;
+            }
+            if(readyqueue.isEmpty()){
+                allTime++;
                 break;
             }
             jobqueue.add(readyqueue.getFirst());
@@ -49,7 +52,6 @@ public class RoundRobin {
                 CPU.result.put("rrturnaroundtime"+jobqueue.getFirst().getPsNumber(), jobqueue.getFirst().getTurnaroundTime());
                 CPU.result.put("rrresponsetime"+jobqueue.getFirst().getPsNumber(), jobqueue.getFirst().getResponseTime());
                 totalwaitingtime += jobqueue.getFirst().getWaitingTime();
-                System.out.println("PS["+jobqueue.getFirst().getPsNumber()+"] 의 turnaroundtime : "+ jobqueue.getFirst().getTurnaroundTime()+ " waitingtime : "+ jobqueue.getFirst().getWaitingTime());
                 ps.remove(jobqueue.getFirst());
                 jobqueue.removeFirst();
             }
@@ -64,9 +66,8 @@ public class RoundRobin {
             if(ps.isEmpty()){
                 CPU.result.put("rrexecutiontime", (double)allTime);
                 CPU.result.put("rravgwaitingtime" , totalwaitingtime/size);
-                System.out.println("All time : "+allTime);
-                System.out.println("totalwaitingtime : " + totalwaitingtime);
-                System.out.println("Round Robin 종료");
+                CPU.result.put("rrthroughput", size/(double)allTime);
+                CPU.result.put("rrutil", allBurst/allTime*100);
                 break;
             }
             for(Process p : ps){

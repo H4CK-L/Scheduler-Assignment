@@ -17,6 +17,7 @@ public class SJF{
     private int waitTime = 0;
     private int processCount = 0;
     private int totalWaitTime = 0;
+    private double allBurst=0;
     public SJF(ArrayList<Process> pss) {
         for(Process p : pss){
             processes.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
@@ -52,26 +53,15 @@ public class SJF{
             }
         }
 
-        System.out.println("============================");
         for(Process p : processes){
             CPU.result.put("sjfwaitingtime"+p.getPsNumber(), p.getWaitingTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Waiting Time : " + p.getWaitingTime());
-        }
-        System.out.println("============================");
-        for(Process p : processes){
             CPU.result.put("sjfturnaroundtime"+p.getPsNumber() , p.getTurnaroundTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Turnaround Time : " + p.getTurnaroundTime());
-        }
-        System.out.println("============================");
-        for(Process p : processes){
             CPU.result.put("sjfresponsetime"+p.getPsNumber(), p.getResponseTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Response Time : " + p.getResponseTime());
+            allBurst += p.getRequiredCpuTime();
         }
-        System.out.println("============================");
-        System.out.println("Total CPU Burst : " + allTime);
         CPU.result.put("sjfexecutiontime", (double)allTime);
-        System.out.println("Average Waiting Time : " + (double)totalWaitTime / processes.size());
+        CPU.result.put("sjfthroughput", processes.size()/(double)allTime);
+        CPU.result.put("sjfutil", allBurst/allTime*100);
         CPU.result.put("sjfavgwaitingtime",(double)totalWaitTime / processes.size());
-        System.out.println("============================");
     }
 }

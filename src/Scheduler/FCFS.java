@@ -8,7 +8,7 @@ public class FCFS {
     private int waitTime = 0;
     private int totalWaitTime = 0;
     private int processCount = 0;
-
+    private double allBurst = 0;
     public FCFS(ArrayList<Process> pss) {
         for(Process p : pss){
             processes.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
@@ -48,26 +48,16 @@ public class FCFS {
             }
         }
 
-        System.out.println("============================");
         for(Process p : processes){
             CPU.result.put("fcfswaitingtime"+p.getPsNumber(), p.getWaitingTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Waiting Time : " + p.getWaitingTime());
-        }
-        System.out.println("============================");
-        for(Process p : processes){
-            CPU.result.put("fcfsturnaroundtime"+p.getPsNumber(), p.getTurnaroundTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Turnaround Time : " + p.getTurnaroundTime());
-        }
-        System.out.println("============================");
-        for(Process p : processes){
             CPU.result.put("fcfsresponsetime"+p.getPsNumber(), p.getResponseTime());
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Response Time : " + p.getResponseTime());
+            CPU.result.put("fcfsturnaroundtime"+p.getPsNumber(), p.getTurnaroundTime());
+            allBurst += p.getRequiredCpuTime();
         }
-        System.out.println("============================");
         CPU.result.put("fcfsexecutiontime",(double)allTime);
-        System.out.println("Total CPU Burst : " + allTime);
+        CPU.result.put("fcfsthroughput", processes.size()/(double)allTime);
+        CPU.result.put("fcfsutil", allBurst/allTime*100);
         CPU.result.put("fcfsavgwaitingtime", (double)totalWaitTime/ processes.size());
-        System.out.println("Average Waiting Time : " + (double)totalWaitTime / processes.size());
-        System.out.println("============================");
+
     }
 }
