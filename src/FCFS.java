@@ -13,28 +13,33 @@ public class FCFS {
     }
 
     public void run(){
-        Process ps;
-        for(int i = 0; i < processes.size(); i++){
-            ps = processes.get(i);
-            for(int j = i + 1; j < processes.size(); j++){
-                if(ps.getArriveTime() > processes.get(j).getArriveTime()){
-                    ps = processes.get(j);
+        ArrayList<Process> jobQueue = new ArrayList<>(processes);
+        Collections.sort(jobQueue, Comparator.comparing(Process::getArriveTime));
+        while(true) {
+            for (Iterator<Process> it = jobQueue.iterator(); it.hasNext(); ) {
+                Process p = it.next();
+                if (p.getArriveTime() <= allTime) {
+                    readyQueue.add(p);
+                    it.remove();
                 }
             }
-            readyQueue.add(ps);
-        }
 
-        while(!readyQueue.isEmpty()){
-            if(readyQueue.get(0).getArriveTime() <= allTime){
-                waitTime = allTime - readyQueue.get(0).getArriveTime();
-                allTime += readyQueue.get(0).getRequiredCpuTime();
-                readyQueue.get(0).setTime(allTime - readyQueue.get(0).getArriveTime(), waitTime, waitTime);
-                processCount++;
-                totalWaitTime += waitTime;
-                readyQueue.remove(0);
+            while (!readyQueue.isEmpty()) {
+                if (readyQueue.get(0).getArriveTime() <= allTime) {
+                    System.out.println("rq 0 : arr" + readyQueue.get(0).getArriveTime() + "alltime : " + allTime);
+                    waitTime = allTime - readyQueue.get(0).getArriveTime();
+                    allTime += readyQueue.get(0).getRequiredCpuTime();
+                    readyQueue.get(0).setTime(allTime - readyQueue.get(0).getArriveTime(), waitTime, waitTime);
+                    processCount++;
+                    totalWaitTime += waitTime;
+                    readyQueue.remove(0);
+                } else {
+                    allTime++;
+                }
             }
-            else{
-                allTime++;
+
+            if(jobQueue.size() <= 0) {
+                break;
             }
         }
 
