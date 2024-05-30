@@ -2,59 +2,62 @@ import java.util.*;
 
 public class FCFS {
     private ArrayList<Process> processes = new ArrayList<Process>();
-    private HashMap<Integer, Integer> hs = new HashMap<Integer, Integer>();
-    private ArrayList<Integer> sKey;
+    ArrayList<Process> readyQueue = new ArrayList<>();
+    private int allTime = 0;
+    private int waitTime = 0;
+    private int totalWaitTime = 0;
+    private int processCount = 0;
 
     public FCFS(ArrayList<Process> processes) {
         this.processes = processes;
-        setArrive();
-    }
-
-    private void setArrive(){
-        for(int i = 0; i < processes.size(); i++){
-            hs.put(processes.get(i).getPsNumber(), processes.get(i).getArriveTime());
-        }
-        sKey = new ArrayList<>(hs.keySet());
-
-        sKey.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return hs.get(o1).compareTo(hs.get(o2));
-            }
-        });
     }
 
     public void run(){
-        int allTime = 0;
-        double totalWaitTime = 0;
-        boolean checkFirst = false;
-        for(int key : sKey){
-            if(!checkFirst){
-                processes.get(key).setTime(processes.get(key).getRequiredCpuTime(), processes.get(key).getArriveTime(), processes.get(key).getArriveTime());
-                allTime += processes.get(key).getRequiredCpuTime();
-                checkFirst = true;
-                continue;
+        ArrayList<Process> jobQueue = new ArrayList<>(processes);
+        Collections.sort(jobQueue, Comparator.comparing(Process::getArriveTime));
+        while(true) {
+            for (Iterator<Process> it = jobQueue.iterator(); it.hasNext(); ) {
+                Process p = it.next();
+                if (p.getArriveTime() <= allTime) {
+                    readyQueue.add(p);
+                    it.remove();
+                }
             }
-            processes.get(key).setTime(processes.get(key).getRequiredCpuTime(), allTime - hs.get(key), allTime - hs.get(key));
-            allTime += processes.get(key).getRequiredCpuTime();
+
+            while (!readyQueue.isEmpty()) {
+                if (readyQueue.get(0).getArriveTime() <= allTime) {
+                    System.out.println("rq 0 : arr" + readyQueue.get(0).getArriveTime() + "alltime : " + allTime);
+                    waitTime = allTime - readyQueue.get(0).getArriveTime();
+                    allTime += readyQueue.get(0).getRequiredCpuTime();
+                    readyQueue.get(0).setTime(allTime - readyQueue.get(0).getArriveTime(), waitTime, waitTime);
+                    processCount++;
+                    totalWaitTime += waitTime;
+                    readyQueue.remove(0);
+                } else {
+                    allTime++;
+                }
+            }
+
+            if(jobQueue.size() <= 0) {
+                break;
+            }
         }
 
         System.out.println("============================");
         for(Process p : processes){
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 대기시간 : " + p.getWaitingTime());
-            totalWaitTime += p.getWaitingTime();
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Waiting Time : " + p.getWaitingTime());
         }
         System.out.println("============================");
         for(Process p : processes){
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 실행시간 : " + p.getRequiredCpuTime());
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Turnaround Time : " + p.getTurnaroundTime());
         }
         System.out.println("============================");
         for(Process p : processes){
-            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 응답시간 : " + p.getResponseTime());
+            System.out.println("프로세스 " + (p.getPsNumber() + 1) + " 의 Response Time : " + p.getResponseTime());
         }
         System.out.println("============================");
-        System.out.println("총 실행 시간 : " + allTime);
-        System.out.println("평균 대기시간 : " + totalWaitTime / processes.size());
+        System.out.println("Total CPU Burst : " + allTime);
+        System.out.println("Average Waiting Time : " + totalWaitTime / processes.size());
         System.out.println("============================");
     }
 }
