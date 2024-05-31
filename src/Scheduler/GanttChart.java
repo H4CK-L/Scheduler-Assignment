@@ -1,9 +1,6 @@
 package Scheduler;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 class GanttChart {
     private String name;
