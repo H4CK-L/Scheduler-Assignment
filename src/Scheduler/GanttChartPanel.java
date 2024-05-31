@@ -17,21 +17,29 @@ class GanttChartPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        int half = 50;
         int taskHeight = 30;
         int taskY = 50;
         int margin = 50;
         int xStart = margin;
-
+        int j = 0;
+        int k = 0;
         int maxTime = tasks.stream().mapToInt(GanttChart::getEndTime).max().orElse(0);
-
+        if(maxTime>35 && maxTime <= 60){
+            xStart = 25;
+            half = 30;
+        }
+        else if(maxTime>60 && maxTime <= 90){
+            xStart = 25;
+            half = 20;
+        }
         for (int i = 0; i <= maxTime; i++) {
-            g.drawString(Integer.toString(i), xStart + i * 50, taskY - 10);
+            g.drawString(Integer.toString(i), xStart + i * half, taskY - 10);
         }
 
         for (GanttChart task : tasks) {
-            int taskX = xStart + task.getStartTime() * 50;
-            int taskWidth = (task.getEndTime() - task.getStartTime()) * 50;
+            int taskX = xStart + task.getStartTime() * half;
+            int taskWidth = (task.getEndTime() - task.getStartTime()) * half;
 
             g.setColor(task.getColor());
             g.fillRect(taskX, taskY, taskWidth, taskHeight);
