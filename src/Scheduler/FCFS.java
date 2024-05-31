@@ -7,7 +7,7 @@ public class FCFS {
     private int allTime = 0;
     private int waitTime = 0;
     private int totalWaitTime = 0;
-    private int processCount = 0;
+    private double totalturnaroundtime = 0;
     private double allBurst = 0;
     public FCFS(ArrayList<Process> pss) {
         for(Process p : pss){
@@ -36,8 +36,8 @@ public class FCFS {
                     waitTime = allTime - readyQueue.get(0).getArriveTime();
                     allTime += readyQueue.get(0).getRequiredCpuTime();
                     readyQueue.get(0).setTime(allTime - readyQueue.get(0).getArriveTime(), waitTime, waitTime);
-                    processCount++;
                     totalWaitTime += waitTime;
+                    totalturnaroundtime += allTime - readyQueue.get(0).getArriveTime();
                     readyQueue.remove(0);
                 }
             }
@@ -54,6 +54,7 @@ public class FCFS {
             CPU.result.put("fcfsturnaroundtime"+p.getPsNumber(), p.getTurnaroundTime());
             allBurst += p.getRequiredCpuTime();
         }
+        CPU.result.put("fcfsavgturnaroundtime", totalturnaroundtime/processes.size());
         CPU.result.put("fcfsexecutiontime",(double)allTime);
         CPU.result.put("fcfsthroughput", processes.size()/(double)allTime);
         CPU.result.put("fcfsutil", allBurst/allTime*100);

@@ -18,6 +18,7 @@ public class SJF{
     private int processCount = 0;
     private int totalWaitTime = 0;
     private double allBurst=0;
+    private double totalturnaroundtime =0;
     public SJF(ArrayList<Process> pss) {
         for(Process p : pss){
             processes.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
@@ -41,6 +42,7 @@ public class SJF{
                 allTime += readyQueue.peek().getRequiredCpuTime();
                 readyQueue.peek().setTime(allTime - readyQueue.peek().getArriveTime(), waitTime, waitTime);
                 processCount++;
+                totalturnaroundtime += allTime - readyQueue.peek().getArriveTime();
                 totalWaitTime += waitTime;
                 readyQueue.poll();
             }
@@ -59,6 +61,7 @@ public class SJF{
             CPU.result.put("sjfresponsetime"+p.getPsNumber(), p.getResponseTime());
             allBurst += p.getRequiredCpuTime();
         }
+        CPU.result.put("sjfavgturnaroundtime", totalturnaroundtime/ processes.size());
         CPU.result.put("sjfexecutiontime", (double)allTime);
         CPU.result.put("sjfthroughput", processes.size()/(double)allTime);
         CPU.result.put("sjfutil", allBurst/allTime*100);

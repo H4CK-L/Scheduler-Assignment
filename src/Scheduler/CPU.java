@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-
 public class CPU extends javax.swing.JFrame {
     final boolean[] isPlaceholder = {true};
     private int psNum = 0;
@@ -53,7 +52,7 @@ public class CPU extends javax.swing.JFrame {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {},
                 new String [] {
-                        "Process Num", "Arrived Time", "CPU Burst", "Turnarround Time", "Waiting Time", "Responce Time"
+                        "Process Num", "Arrived Time", "CPU Burst", "Turnarround Time", "Waiting Time", "Response Time"
                 }
         ) {
             Class[] types = new Class [] {
@@ -71,11 +70,11 @@ public class CPU extends javax.swing.JFrame {
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {},
                 new String [] {
-                        "Execution Time", "Average Waiting Time", "Throughput", "CPU Utilization"
+                        "Execution Time", "Average Waiting Time", "Average Turnaround Time", "Throughput", "CPU Utilization"
                 }
         ) {
             Class[] types = new Class [] {
-                    java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                    java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -95,80 +94,105 @@ public class CPU extends javax.swing.JFrame {
         jButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(model2.getRowCount() == 0){
-                    model2.addRow(new Object[]{null,null,null,null});
+                if(model.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(new JFrame(), "process를 먼저 생성해주세요!", "경고", JOptionPane.WARNING_MESSAGE);
                 }
-                String selectedAlgorithm = (String) jComboBox1.getSelectedItem();
-                switch(selectedAlgorithm) {
-                	case "FCFS":
-                		FCFS fcfs = new FCFS(ps);
-                        fcfs.run();
-                        for(int i = 0 ; i < ps.size() ; i++){
-                            model.setValueAt(result.get("fcfsturnaroundtime"+i), i, 3);
-                            model.setValueAt(result.get("fcfswaitingtime"+i), i, 4);
-                            model.setValueAt(result.get("fcfsresponsetime"+i), i, 5);
-                            model2.setValueAt(result.get("fcfsexecutiontime"), 0,0);
-                            model2.setValueAt(result.get("fcfsavgwaitingtime"), 0,1);
-                            model2.setValueAt(result.get("fcfsthroughput"), 0,2);
-                            model2.setValueAt(result.get("fcfsutil")+"%", 0,3);
-                        }
-                        jTable1.setDefaultRenderer(Object.class, centerRenderer);
-                        jTable2.setDefaultRenderer(Object.class, centerRenderer);
-                		break;
-                	case "SJF":
-                		SJF sjf = new SJF(ps);
-                		sjf.run();
-                        for(int i = 0 ; i < ps.size() ; i++){
-                            model.setValueAt(result.get("sjfturnaroundtime"+i), i, 3);
-                            model.setValueAt(result.get("sjfwaitingtime"+i), i, 4);
-                            model.setValueAt(result.get("sjfresponsetime"+i), i, 5);
-                            model2.setValueAt(result.get("sjfexecutiontime"), 0,0);
-                            model2.setValueAt(result.get("sjfavgwaitingtime"), 0,1);
-                            model2.setValueAt(result.get("sjfthroughput"), 0,2);
-                            model2.setValueAt(result.get("sjfutil")+"%", 0,3);
-                        }
-                        jTable1.setDefaultRenderer(Object.class, centerRenderer);
-                        jTable2.setDefaultRenderer(Object.class, centerRenderer);
-                		break;
+                else{
+                    if(model2.getRowCount() == 0){
+                        model2.addRow(new Object[]{null,null,null,null});
+                    }
 
-                	case "HRRN":
-                		HRRN hrrn = new HRRN(ps);
-                		hrrn.run();
-                        for(int i = 0 ; i < ps.size() ; i++){
-                            model.setValueAt(result.get("hrrnturnaroundtime"+i), i, 3);
-                            model.setValueAt(result.get("hrrnwaitingtime"+i), i, 4);
-                            model.setValueAt(result.get("hrrnresponsetime"+i), i, 5);
-                            model2.setValueAt(result.get("hrrnexecutiontime"), 0,0);
-                            model2.setValueAt(result.get("hrrnavgwaitingtime"), 0,1);
-                            model2.setValueAt(result.get("hrrnthroughput"), 0,2);
-                            model2.setValueAt(result.get("hrrnutil")+"%", 0,3);
-                        }
-                        jTable1.setDefaultRenderer(Object.class, centerRenderer);
-                        jTable2.setDefaultRenderer(Object.class, centerRenderer);
-                		break;
-
-                	case "Round Robin":
-                		if(TimeSlice > 0) {
-                			RoundRobin rr = new RoundRobin(ps,TimeSlice);
-                            rr.run();
+                    String selectedAlgorithm = (String) jComboBox1.getSelectedItem();
+                    switch(selectedAlgorithm) {
+                        case "FCFS":
+                            FCFS fcfs = new FCFS(ps);
+                            fcfs.run();
                             for(int i = 0 ; i < ps.size() ; i++){
-                                model.setValueAt(result.get("rrturnaroundtime"+i), i, 3);
-                                model.setValueAt(result.get("rrwaitingtime"+i), i, 4);
-                                model.setValueAt(result.get("rrresponsetime"+i), i, 5);
-                                model2.setValueAt(result.get("rrexecutiontime"), 0,0);
-                                model2.setValueAt(result.get("rravgwaitingtime"), 0,1);
-                                model2.setValueAt(result.get("rrthroughput"), 0,2);
-                                model2.setValueAt(result.get("rrutil")+"%", 0,3);
+                                model.setValueAt(result.get("fcfsturnaroundtime"+i), i, 3);
+                                model.setValueAt(result.get("fcfswaitingtime"+i), i, 4);
+                                model.setValueAt(result.get("fcfsresponsetime"+i), i, 5);
+                                model2.setValueAt(result.get("fcfsexecutiontime"), 0,0);
+                                model2.setValueAt(result.get("fcfsavgwaitingtime"), 0,1);
+                                model2.setValueAt(result.get("fcfsavgturnaroundtime"), 0,2);
+                                model2.setValueAt(result.get("fcfsthroughput"), 0,3);
+                                model2.setValueAt(result.get("fcfsutil")+"%", 0,4);
                             }
-                		}
-                        jTable1.setDefaultRenderer(Object.class, centerRenderer);
-                        jTable2.setDefaultRenderer(Object.class, centerRenderer);
-                		break;
+                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            break;
+                        case "SJF":
+                            SJF sjf = new SJF(ps);
+                            sjf.run();
+                            for(int i = 0 ; i < ps.size() ; i++){
+                                model.setValueAt(result.get("sjfturnaroundtime"+i), i, 3);
+                                model.setValueAt(result.get("sjfwaitingtime"+i), i, 4);
+                                model.setValueAt(result.get("sjfresponsetime"+i), i, 5);
+                                model2.setValueAt(result.get("sjfexecutiontime"), 0,0);
+                                model2.setValueAt(result.get("sjfavgwaitingtime"), 0,1);
+                                model2.setValueAt(result.get("sjfavgturnaroundtime"), 0,2);
+                                model2.setValueAt(result.get("sjfthroughput"), 0,3);
+                                model2.setValueAt(result.get("sjfutil")+"%", 0,4);
+                            }
+                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            break;
 
-                	case "New":
+                        case "HRRN":
+                            HRRN hrrn = new HRRN(ps);
+                            hrrn.run();
+                            for(int i = 0 ; i < ps.size() ; i++){
+                                model.setValueAt(result.get("hrrnturnaroundtime"+i), i, 3);
+                                model.setValueAt(result.get("hrrnwaitingtime"+i), i, 4);
+                                model.setValueAt(result.get("hrrnresponsetime"+i), i, 5);
+                                model2.setValueAt(result.get("hrrnexecutiontime"), 0,0);
+                                model2.setValueAt(result.get("hrrnavgwaitingtime"), 0,1);
+                                model2.setValueAt(result.get("hrrnavgturnaroundtime"), 0,2);
+                                model2.setValueAt(result.get("hrrnthroughput"), 0,3);
+                                model2.setValueAt(result.get("hrrnutil")+"%", 0,4);
+                            }
+                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            break;
 
+                        case "Round Robin":
+                            if(TimeSlice > 0) {
+                                RoundRobin rr = new RoundRobin(ps,TimeSlice);
+                                rr.run();
+                                for(int i = 0 ; i < ps.size() ; i++){
+                                    model.setValueAt(result.get("rrturnaroundtime"+i), i, 3);
+                                    model.setValueAt(result.get("rrwaitingtime"+i), i, 4);
+                                    model.setValueAt(result.get("rrresponsetime"+i), i, 5);
+                                    model2.setValueAt(result.get("rrexecutiontime"), 0,0);
+                                    model2.setValueAt(result.get("rravgwaitingtime"), 0,1);
+                                    model2.setValueAt(result.get("rravgturnaroundtime"),0,2);
+                                    model2.setValueAt(result.get("rrthroughput"), 0,3);
+                                    model2.setValueAt(result.get("rrutil")+"%", 0,4);
+                                }
+                            }
+                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            break;
+
+                        case "New":
+                            NEWHRRN nh = new NEWHRRN(ps);
+                            nh.run();
+                            for(int i = 0 ; i < ps.size() ; i++){
+                                model.setValueAt(result.get("newturnaroundtime"+i), i, 3);
+                                model.setValueAt(result.get("newwaitingtime"+i), i, 4);
+                                model.setValueAt(result.get("newresponsetime"+i), i, 5);
+                                model2.setValueAt(result.get("newexecutiontime"), 0,0);
+                                model2.setValueAt(result.get("newavgwaitingtime"), 0,1);
+                                model2.setValueAt(result.get("newavgturnaroundtime"), 0,2);
+                                model2.setValueAt(result.get("newthroughput"), 0,3);
+                                model2.setValueAt(result.get("newutil")+"%", 0,4);
+                            }
+                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
+
+                    }
                 }
-            	}
+                }
+
             });
 
         jComboBox1.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N

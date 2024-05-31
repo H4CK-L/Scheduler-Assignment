@@ -10,6 +10,7 @@ public class RoundRobin {
     private double totalwaitingtime=0;
     private int size=0;
     private double allBurst = 0;
+    private double totalturnaroundtime =0;
     public RoundRobin(ArrayList<Process> pss ,int timeSlice){
         for(Process p : pss){
             ps.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
@@ -52,6 +53,7 @@ public class RoundRobin {
                 CPU.result.put("rrturnaroundtime"+jobqueue.getFirst().getPsNumber(), jobqueue.getFirst().getTurnaroundTime());
                 CPU.result.put("rrresponsetime"+jobqueue.getFirst().getPsNumber(), jobqueue.getFirst().getResponseTime());
                 totalwaitingtime += jobqueue.getFirst().getWaitingTime();
+                totalturnaroundtime += jobqueue.getFirst().getTurnaroundTime();
                 ps.remove(jobqueue.getFirst());
                 jobqueue.removeFirst();
             }
@@ -68,6 +70,7 @@ public class RoundRobin {
                 CPU.result.put("rravgwaitingtime" , totalwaitingtime/size);
                 CPU.result.put("rrthroughput", size/(double)allTime);
                 CPU.result.put("rrutil", allBurst/allTime*100);
+                CPU.result.put("rravgturnaroundtime", totalturnaroundtime/size);
                 break;
             }
             for(Process p : ps){

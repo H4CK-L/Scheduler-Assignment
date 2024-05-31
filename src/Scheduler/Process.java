@@ -22,7 +22,6 @@ public class Process {
         this.requiredCpuTime = requiredCpuTime;
         this.arrivedTime = arrivedTime;
         this.priority = priority;
-        burstTime = requiredCpuTime;
     }
 
     public int getPsNumber() {
@@ -39,7 +38,7 @@ public class Process {
     public double getTurnaroundTime() {
         return turnaroundTime;
     }
-    public int getBurstTime(){ return burstTime; }
+    public int getBurstTime(){return burstTime;}
     public void setTurnaroundTime(int turnaroundTime){ this.turnaroundTime = turnaroundTime; }
     public double getResponseTime(){ return responseTime; }
     public void setResponseTime( int responseTime ){ this.responseTime = responseTime; }

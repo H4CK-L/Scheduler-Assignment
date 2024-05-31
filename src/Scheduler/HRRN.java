@@ -9,6 +9,7 @@ public class HRRN {
     private double totalwaitingtime = 0;
     private int size = 0;
     private double allBurst = 0;
+    private double totalturnaroundtime =0;
     public HRRN(ArrayList<Process> ps) {
         for(Process p : ps) {
             hrrnps.add(new Process(p.getPsNumber(),p.getRequiredCpuTime(), p.getArriveTime()));
@@ -68,6 +69,7 @@ public class HRRN {
                     CPU.result.put("hrrnturnaroundtime"+hrrnps.get(i).getPsNumber(), hrrnps.get(i).getTurnaroundTime());
                     CPU.result.put("hrrnresponsetime"+hrrnps.get(i).getPsNumber(), hrrnps.get(i).getResponseTime());
                     totalwaitingtime += hrrnps.get(i).getWaitingTime();
+                    totalturnaroundtime += hrrnps.get(i).getTurnaroundTime();
                     hrrnps.remove(i);
                     i--;
                 }
@@ -85,6 +87,7 @@ public class HRRN {
             if (hrrnps.size() == 0) {
                 CPU.result.put("hrrnexecutiontime",(double)allTime);
                 CPU.result.put("hrrnavgwaitingtime", totalwaitingtime/size);
+                CPU.result.put("hrrnavgturnaroundtime", totalturnaroundtime/size);
                 CPU.result.put("hrrnthroughput", size/(double)allTime);
                 CPU.result.put("hrrnutil", allBurst/allTime*100);
                 System.out.println("HRRN종료");
