@@ -28,7 +28,7 @@ public class SJF{
         for(Process p : pss){
             Random rand = new Random();
             processes.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
-            gantths.put(p.getPsNumber(),new GanttChart("p"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
+            gantths.put(p.getPsNumber(),new GanttChart("p"+(p.getPsNumber()+1), new Color(rand.nextInt(100,256),rand.nextInt(100,256),rand.nextInt(100,256))));
         }
         this.totalPs = processes.size();
         CPU.Gantts.clear();

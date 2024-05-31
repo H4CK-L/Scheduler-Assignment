@@ -18,7 +18,7 @@ public class CPU extends javax.swing.JFrame {
     ArrayList<Process> ps = new ArrayList<Process>();
     static HashMap<String, Double> result = new HashMap<String, Double>();
     static List<GanttChart> Gantts = new ArrayList<GanttChart>();
-    static GanttChartPanel ganttchart = new GanttChartPanel(Gantts);
+    static GanttChartPanel ganttchart;
 
     public CPU() {
         initComponents();
@@ -54,7 +54,6 @@ public class CPU extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jTable2.setFont(new Font("굴림", Font.BOLD,16));
-        jProgressBar1 = new javax.swing.JProgressBar();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {},
@@ -190,18 +189,18 @@ public class CPU extends javax.swing.JFrame {
                                     model2.setValueAt(result.get("rrthroughput"), 0,3);
                                     model2.setValueAt(result.get("rrutil")+"%", 0,4);
                                 }
+                                jTable1.setDefaultRenderer(Object.class, centerRenderer);
+                                jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                                JFrame frame4 = new JFrame("Gantt Chart");
+                                frame4.add(new JScrollPane(ganttchart));
+                                frame4.pack();
+                                frame4.setLocationRelativeTo(null);
+                                frame4.setVisible(true);
                             }
-                            jTable1.setDefaultRenderer(Object.class, centerRenderer);
-                            jTable2.setDefaultRenderer(Object.class, centerRenderer);
-                            JFrame frame4 = new JFrame("Gantt Chart");
-                            frame4.add(new JScrollPane(ganttchart));
-                            frame4.pack();
-                            frame4.setLocationRelativeTo(null);
-                            frame4.setVisible(true);
                             break;
 
-                        case "New":
-                            NEWHRRN nh = new NEWHRRN(ps);
+                        case "PHRRN":
+                            PHRRN nh = new PHRRN(ps);
                             nh.run();
                             for(int i = 0 ; i < ps.size() ; i++){
                                 model.setValueAt(result.get("newturnaroundtime"+i), i, 3);
@@ -221,6 +220,7 @@ public class CPU extends javax.swing.JFrame {
                             frame5.setLocationRelativeTo(null);
                             frame5.setVisible(true);
 
+
                     }
                 }
                 }
@@ -228,7 +228,7 @@ public class CPU extends javax.swing.JFrame {
             });
 
         jComboBox1.setFont(new java.awt.Font("맑은 고딕", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "SJF", "HRRN", "Round Robin" , "New"}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FCFS", "SJF", "HRRN", "Round Robin" , "PHRRN"}));
 
 
 
@@ -307,12 +307,7 @@ public class CPU extends javax.swing.JFrame {
         jLabel1.setText("Time Slice is");
 
 
-        jProgressBar1.setBackground(new java.awt.Color(255, 255, 255));
-        jProgressBar1.setForeground(new java.awt.Color(153, 255, 255));
-        jProgressBar1.setToolTipText("");
-        jProgressBar1.setValue(25);
-        jProgressBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jProgressBar1.setOpaque(true);
+
 
         JComboBox comboBox = new JComboBox();
         comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"}));
@@ -352,7 +347,6 @@ public class CPU extends javax.swing.JFrame {
                                                 .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                                 .addGap(38)
                                 .addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-                                        .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                                         .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                                         .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE))
                                 .addGap(48))
@@ -382,7 +376,6 @@ public class CPU extends javax.swing.JFrame {
                                 .addGap(18)
                                 .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
                                 .addGap(75)
-                                .addComponent(jProgressBar1, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(81, Short.MAX_VALUE))
         );
         jPanel1.setLayout(jPanel1Layout);
@@ -409,7 +402,6 @@ public class CPU extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

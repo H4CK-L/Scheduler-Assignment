@@ -1,4 +1,5 @@
 package Scheduler;
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -15,15 +16,18 @@ public class RoundRobin {
     private double totalturnaroundtime =0;
     private int start = 0;
     private int end = 0;
-    private HashMap <Integer, GanttChart> gantths = new HashMap<>();
     private List<GanttChart> gant = new ArrayList<GanttChart>() ;
+    private ArrayList<Integer> randomcolor = new ArrayList<>();
     private int i = 0;
+
+
     public RoundRobin(ArrayList<Process> pss ,int timeSlice){
         for(Process p : pss){
             Random rand = new Random();
+            randomcolor.add(rand.nextInt(100,256));
+            randomcolor.add(rand.nextInt(100,256));
             ps.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
             size++;
-            gantths.put(p.getPsNumber(),new GanttChart("p"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
             allBurst += p.getRequiredCpuTime();
         }
         this.timeSlice = timeSlice;
@@ -56,10 +60,10 @@ public class RoundRobin {
                 }
             }
             end = start+timeSlice;
-            gantths.get(jobqueue.getFirst().getPsNumber()).setStartEnd(start,end);
-            if(end <= allTime){
-                CPU.ganttchart.ganttAdd(gantths.get(jobqueue.getFirst().getPsNumber()));
-            }
+            GanttChart tmp = new GanttChart("p"+(jobqueue.getFirst().getPsNumber()+1), new Color(randomcolor.get(jobqueue.getFirst().getPsNumber()),randomcolor.get(jobqueue.getFirst().getPsNumber()+1),randomcolor.get(jobqueue.getFirst().getPsNumber()+2)));
+            tmp.setStartEnd(start,end);
+            gant.add(i++, tmp);
+
             if(jobqueue.getFirst().getRequiredCpuTime() == 0){
                 jobqueue.getFirst().setWaitingTime(allTime-jobqueue.getFirst().getArriveTime()-jobqueue.getFirst().getBurstTime());
                 jobqueue.getFirst().setTurnaroundTime(allTime - jobqueue.getFirst().getArriveTime());
