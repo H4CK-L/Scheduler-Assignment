@@ -5,12 +5,15 @@ import java.awt.*;
 import java.util.List;
 
 class GanttChartPanel extends JPanel {
-    private List<GanttChart> tasks;
-
+    private List<GanttChart> tasks ;
+    private GanttChart task;
     public GanttChartPanel(List<GanttChart> tasks) {
         this.tasks = tasks;
     }
 
+    public void ganttAdd(GanttChart task){
+        this.task=task;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -1,6 +1,7 @@
 package Scheduler;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class RoundRobin {
     private ArrayList<Process> ps = new ArrayList<Process>();
@@ -15,13 +16,14 @@ public class RoundRobin {
     private int start = 0;
     private int end = 0;
     private HashMap <Integer, GanttChart> gantths = new HashMap<>();
-
+    private List<GanttChart> gant = new ArrayList<GanttChart>() ;
+    private int i = 0;
     public RoundRobin(ArrayList<Process> pss ,int timeSlice){
         for(Process p : pss){
             Random rand = new Random();
             ps.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
             size++;
-            gantths.put(p.getPsNumber(),new GanttChart("process"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
+            gantths.put(p.getPsNumber(),new GanttChart("p"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
             allBurst += p.getRequiredCpuTime();
         }
         this.timeSlice = timeSlice;
@@ -53,8 +55,11 @@ public class RoundRobin {
                     }
                 }
             }
-            end = allTime;
-
+            end = start+timeSlice;
+            gantths.get(jobqueue.getFirst().getPsNumber()).setStartEnd(start,end);
+            if(end <= allTime){
+                CPU.ganttchart.ganttAdd(gantths.get(jobqueue.getFirst().getPsNumber()));
+            }
             if(jobqueue.getFirst().getRequiredCpuTime() == 0){
                 jobqueue.getFirst().setWaitingTime(allTime-jobqueue.getFirst().getArriveTime()-jobqueue.getFirst().getBurstTime());
                 jobqueue.getFirst().setTurnaroundTime(allTime - jobqueue.getFirst().getArriveTime());
@@ -63,10 +68,6 @@ public class RoundRobin {
                 CPU.result.put("rrresponsetime"+jobqueue.getFirst().getPsNumber(), jobqueue.getFirst().getResponseTime());
                 totalwaitingtime += jobqueue.getFirst().getWaitingTime();
                 totalturnaroundtime += jobqueue.getFirst().getTurnaroundTime();
-                gantths.get(jobqueue.getFirst().getPsNumber()).setStartEnd(start,end);
-                if(end <= allTime){
-                    CPU.Gantts.add(gantths.get((jobqueue.getFirst().getPsNumber())));
-                }
                 ps.remove(jobqueue.getFirst());
                 jobqueue.removeFirst();
             }
@@ -84,7 +85,7 @@ public class RoundRobin {
                 CPU.result.put("rrthroughput", size/(double)allTime);
                 CPU.result.put("rrutil", allBurst/allTime*100);
                 CPU.result.put("rravgturnaroundtime", totalturnaroundtime/size);
-                CPU.ganttchart = new GanttChartPanel(CPU.Gantts);
+                CPU.ganttchart = new GanttChartPanel(gant);
                 break;
             }
             for(Process p : ps){

@@ -21,7 +21,7 @@ public class HRRN {
             hrrnps.add(new Process(p.getPsNumber(),p.getRequiredCpuTime(), p.getArriveTime()));
             size++;
             allBurst += p.getRequiredCpuTime();
-            gantths.put(p.getPsNumber(),new GanttChart("process"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
+            gantths.put(p.getPsNumber(),new GanttChart("p"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
         }
         CPU.Gantts.clear();
         for (Process p : hrrnps) {

@@ -18,7 +18,7 @@ public class CPU extends javax.swing.JFrame {
     ArrayList<Process> ps = new ArrayList<Process>();
     static HashMap<String, Double> result = new HashMap<String, Double>();
     static List<GanttChart> Gantts = new ArrayList<GanttChart>();
-    static GanttChartPanel ganttchart;
+    static GanttChartPanel ganttchart = new GanttChartPanel(Gantts);
 
     public CPU() {
         initComponents();
