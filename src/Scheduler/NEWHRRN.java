@@ -10,6 +10,8 @@ public class NEWHRRN {
     private double allBurst = 0;
     private double totalwaitingtime = 0;
     private double totalturnaroundtime = 0;
+    private int start = 0;
+    private int end = 0;
     public NEWHRRN(ArrayList<Process> pss){
         for(Process p : pss){
             ps.add(new Process(p.getPsNumber(),p.getRequiredCpuTime(), p.getArriveTime()));
@@ -76,7 +78,6 @@ public class NEWHRRN {
         }
         allTime++;
     }
-    //arrived time 0이 안왔을때 종료가 안되게 하는 법
     public void run(){
         while(true){
             for(Process p : ps) {

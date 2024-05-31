@@ -1,4 +1,5 @@
 package Scheduler;
+import java.awt.*;
 import java.util.*;
 
 public class SJF{
@@ -19,11 +20,19 @@ public class SJF{
     private int totalWaitTime = 0;
     private double allBurst=0;
     private double totalturnaroundtime =0;
+    private int start = 0;
+    private int end = 0;
+    private HashMap <Integer, GanttChart> gantths = new HashMap<>();
+
     public SJF(ArrayList<Process> pss) {
         for(Process p : pss){
+            Random rand = new Random();
             processes.add(new Process(p.getPsNumber(), p.getRequiredCpuTime(),p.getArriveTime()));
+            gantths.put(p.getPsNumber(),new GanttChart("process"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
         }
         this.totalPs = processes.size();
+        CPU.Gantts.clear();
+
     }
 
     public void run(){
@@ -39,11 +48,17 @@ public class SJF{
 
             if(!readyQueue.isEmpty()){
                 waitTime = allTime - readyQueue.peek().getArriveTime();
+                start = allTime;
                 allTime += readyQueue.peek().getRequiredCpuTime();
+                end = allTime;
                 readyQueue.peek().setTime(allTime - readyQueue.peek().getArriveTime(), waitTime, waitTime);
                 processCount++;
                 totalturnaroundtime += allTime - readyQueue.peek().getArriveTime();
                 totalWaitTime += waitTime;
+                gantths.get(readyQueue.peek().getPsNumber()).setStartEnd(start,end);
+                if(end <= allTime){
+                    CPU.Gantts.add(gantths.get(readyQueue.peek().getPsNumber()));
+                }
                 readyQueue.poll();
             }
             else{
@@ -66,5 +81,6 @@ public class SJF{
         CPU.result.put("sjfthroughput", processes.size()/(double)allTime);
         CPU.result.put("sjfutil", allBurst/allTime*100);
         CPU.result.put("sjfavgwaitingtime",(double)totalWaitTime / processes.size());
+        CPU.ganttchart = new GanttChartPanel(CPU.Gantts);
     }
 }

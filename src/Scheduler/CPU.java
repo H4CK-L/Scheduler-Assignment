@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
+
 
 public class CPU extends javax.swing.JFrame {
     final boolean[] isPlaceholder = {true};
@@ -15,6 +17,9 @@ public class CPU extends javax.swing.JFrame {
     private int TimeSlice = 0;
     ArrayList<Process> ps = new ArrayList<Process>();
     static HashMap<String, Double> result = new HashMap<String, Double>();
+    static List<GanttChart> Gantts = new ArrayList<GanttChart>();
+    static GanttChartPanel ganttchart;
+
     public CPU() {
         initComponents();
     }
@@ -25,12 +30,14 @@ public class CPU extends javax.swing.JFrame {
                 new CPU().setVisible(true);
             }
         });
+
     }
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+
 
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -119,6 +126,11 @@ public class CPU extends javax.swing.JFrame {
                             }
                             jTable1.setDefaultRenderer(Object.class, centerRenderer);
                             jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            JFrame frame = new JFrame("Gantt Chart");
+                            frame.add(new JScrollPane(ganttchart));
+                            frame.pack();
+                            frame.setLocationRelativeTo(null);
+                            frame.setVisible(true);
                             break;
                         case "SJF":
                             SJF sjf = new SJF(ps);
@@ -135,6 +147,11 @@ public class CPU extends javax.swing.JFrame {
                             }
                             jTable1.setDefaultRenderer(Object.class, centerRenderer);
                             jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            JFrame frame2 = new JFrame("Gantt Chart");
+                            frame2.add(new JScrollPane(ganttchart));
+                            frame2.pack();
+                            frame2.setLocationRelativeTo(null);
+                            frame2.setVisible(true);
                             break;
 
                         case "HRRN":
@@ -152,6 +169,11 @@ public class CPU extends javax.swing.JFrame {
                             }
                             jTable1.setDefaultRenderer(Object.class, centerRenderer);
                             jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            JFrame frame3 = new JFrame("Gantt Chart");
+                            frame3.add(new JScrollPane(ganttchart));
+                            frame3.pack();
+                            frame3.setLocationRelativeTo(null);
+                            frame3.setVisible(true);
                             break;
 
                         case "Round Robin":
@@ -171,6 +193,11 @@ public class CPU extends javax.swing.JFrame {
                             }
                             jTable1.setDefaultRenderer(Object.class, centerRenderer);
                             jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            JFrame frame4 = new JFrame("Gantt Chart");
+                            frame4.add(new JScrollPane(ganttchart));
+                            frame4.pack();
+                            frame4.setLocationRelativeTo(null);
+                            frame4.setVisible(true);
                             break;
 
                         case "New":
@@ -188,6 +215,11 @@ public class CPU extends javax.swing.JFrame {
                             }
                             jTable1.setDefaultRenderer(Object.class, centerRenderer);
                             jTable2.setDefaultRenderer(Object.class, centerRenderer);
+                            JFrame frame5 = new JFrame("Gantt Chart");
+                            frame5.add(new JScrollPane(ganttchart));
+                            frame5.pack();
+                            frame5.setLocationRelativeTo(null);
+                            frame5.setVisible(true);
 
                     }
                 }

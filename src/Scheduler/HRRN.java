@@ -1,4 +1,5 @@
 package Scheduler;
+import java.awt.*;
 import java.util.*;
 
 public class HRRN {
@@ -10,12 +11,19 @@ public class HRRN {
     private int size = 0;
     private double allBurst = 0;
     private double totalturnaroundtime =0;
+    private int start = 0;
+    private int end = 0;
+    private HashMap <Integer, GanttChart> gantths = new HashMap<>();
+
     public HRRN(ArrayList<Process> ps) {
         for(Process p : ps) {
+            Random rand = new Random();
             hrrnps.add(new Process(p.getPsNumber(),p.getRequiredCpuTime(), p.getArriveTime()));
             size++;
             allBurst += p.getRequiredCpuTime();
+            gantths.put(p.getPsNumber(),new GanttChart("process"+(p.getPsNumber()+1), new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256))));
         }
+        CPU.Gantts.clear();
         for (Process p : hrrnps) {
             p.setPriority(1000);
         }
@@ -60,16 +68,22 @@ public class HRRN {
                     if (hrrnps.get(i).getResponseTime() < 0) {
                         hrrnps.get(i).setResponseTime(allTime);
                     }
+                    start = allTime;
                     while (hrrnps.get(i).getRequiredCpuTime() > 0) {
                         hrrnps.get(i).onJob();
                         allTime++;
                     }
+                    end = allTime;
                     hrrnps.get(i).setTurnaroundTime(allTime - hrrnps.get(i).getArriveTime());
                     CPU.result.put("hrrnwaitingtime"+hrrnps.get(i).getPsNumber(), hrrnps.get(i).getWaitingTime());
                     CPU.result.put("hrrnturnaroundtime"+hrrnps.get(i).getPsNumber(), hrrnps.get(i).getTurnaroundTime());
                     CPU.result.put("hrrnresponsetime"+hrrnps.get(i).getPsNumber(), hrrnps.get(i).getResponseTime());
                     totalwaitingtime += hrrnps.get(i).getWaitingTime();
                     totalturnaroundtime += hrrnps.get(i).getTurnaroundTime();
+                    gantths.get(hrrnps.get(i).getPsNumber()).setStartEnd(start,end);
+                    if(end <= allTime){
+                        CPU.Gantts.add(gantths.get((hrrnps.get(i).getPsNumber())));
+                    }
                     hrrnps.remove(i);
                     i--;
                 }
@@ -90,7 +104,7 @@ public class HRRN {
                 CPU.result.put("hrrnavgturnaroundtime", totalturnaroundtime/size);
                 CPU.result.put("hrrnthroughput", size/(double)allTime);
                 CPU.result.put("hrrnutil", allBurst/allTime*100);
-                System.out.println("HRRN종료");
+                CPU.ganttchart = new GanttChartPanel(CPU.Gantts);
                 break;
             }
             for (Process p : hrrnps) {
